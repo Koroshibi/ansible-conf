@@ -1,0 +1,30 @@
+---
+- name: Installation des serveurs web
+  hosts: all
+  become: yes
+  become_method: su
+
+  vars_prompt:
+    - name: "project_name"
+      prompt: "What is the destination folder of the project ?"
+      default: "myblog"
+      private: no
+    - name: "host_name"
+      prompt: "The host name ?"
+      default: "localhost"
+      private: no
+    - name: "mysql_db_name"
+      prompt: "The db name ?"
+      default: "defaultName"
+      private: no
+    - name: "mysql_user"
+      prompt: "The db user ?"
+      default: "root"
+      private: no
+    - name: "mysql_password"
+      prompt: "The db password ?"
+      default: ""
+      private: yes
+
+  roles:
+    - wordpress

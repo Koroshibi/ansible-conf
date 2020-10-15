@@ -1,0 +1,6 @@
+---
+- name: Install php extensions
+  apt: 
+    state: present
+    pkg:
+    - php7.3-gd

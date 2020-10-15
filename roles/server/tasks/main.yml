@@ -1,0 +1,41 @@
+---
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install required software
+  apt:
+    state: present
+    pkg:
+    - apache2
+    - mariadb-server
+    - php7.3-mysql
+    - php7.3
+    - libapache2-mod-php7.3
+    - python-mysqldb
+
+- name: remove default apache vhost
+  file: 
+    state: absent 
+    path: /etc/apache2/sites-enabled/000-default.conf
+
+- name: Set up Apache VirtualHost
+  template:
+    src: "apache.conf.j2"
+    dest: /etc/apache2/sites-available/{{ project_name }}.conf
+
+- name: "Wait until the file /etc/apache2/sites-available/{​​​​​​​​{​​​​​​​​project_name}​​​​​​​​}​​​​​​​​.conf is present before continuing"
+  wait_for:
+    path: /etc/apache2/sites-available/{​​​​​​​​{​​​​​​​​project_name}​​​​​​​​}​​​​​​​​.conf
+
+- name: create link into sites-enabled
+  file: 
+    state: link 
+    src: /etc/apache2/sites-available/{​​​​​​​​{​​​​​​​​project_name}​​​​​​​​}​​​​​​​​.conf
+    dest: /etc/apache2/sites-enabled/{​​​​​​​​{​​​​​​​​project_name}​​​​​​​​}​​​​​​​​.conf
+    
+- name: restart apache2
+  service: 
+    name: apache2 
+    state: restarted

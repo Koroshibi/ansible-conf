@@ -1,0 +1,5 @@
+---
+dependencies:
+  -  role: server
+  -  role: php
+  -  role: mariaDB

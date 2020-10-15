@@ -1,0 +1,15 @@
+---
+- name: Download WordPress
+  get_url:
+    url: https://wordpress.org/latest.tar.gz
+    dest: /tmp/wordpress.tar.gz
+    validate_certs: no
+- name: Create a directory if it does not exist
+  file:
+    path: /var/www/{{ project_name }}/
+    state: directory
+- name: Extract WordPress  
+  unarchive: 
+    src: /tmp/wordpress.tar.gz
+    dest: /var/www/{{ project_name }}/ 
+    copy: no

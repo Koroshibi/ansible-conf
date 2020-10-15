@@ -1,0 +1,2 @@
+[web]
+debian ansible_host=ip ansible_user=paul ansible_password=password
